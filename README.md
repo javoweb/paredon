@@ -1,0 +1,2 @@
+# paredon
+Simple paredon game
