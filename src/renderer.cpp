@@ -63,7 +63,7 @@ void Renderer::Render(std::vector<SDL_Point> player, std::vector<SDL_Point> wall
 
   // Render player
   SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0x7A, 0xCC, 0xFF);
-  for (SDL_Point const &point : wall) {
+  for (SDL_Point const &point : player) {
     block.x = point.x * block.w;
     block.y = point.y * block.h;
     SDL_RenderFillRect(sdl_renderer, &block);

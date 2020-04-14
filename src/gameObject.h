@@ -25,7 +25,7 @@ public:
     // getter and setter
     int getID() { return _id; }
     ObjectType getType() { return _type; }
-
+    bool running();
     // typical behaviour methods
     virtual void play(){};
     void stop();

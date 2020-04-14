@@ -4,7 +4,7 @@
 // init static variable
 int GameObject::_idCnt = 0;
 
-bool _game_over = false;
+bool GameObject::_game_over = false;
 
 GameObject::GameObject(int grid_width, int grid_height) : _grid_width(grid_width), _grid_height(grid_height)
 {
@@ -18,6 +18,11 @@ GameObject::~GameObject()
     std::for_each(threads.begin(), threads.end(), [](std::thread &t) {
         t.join();
     });
+}
+
+bool GameObject::running()
+{
+    return !_game_over;
 }
 
 void GameObject::stop()

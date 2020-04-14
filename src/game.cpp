@@ -4,17 +4,14 @@
 #include <algorithm>
 #include "SDL.h"
 
-Game::Game(std::size_t grid_width, std::size_t grid_height) : _ball(grid_width, grid_height)
+Game::Game(std::size_t grid_width, std::size_t grid_height) : _ball(grid_width, grid_height), _upWall(grid_width, grid_height), _leftWall(grid_width, grid_height), _rightWall(grid_width, grid_height)
 {
   _player = std::make_shared<Player>(grid_width, grid_height);
 
   // Initialize Walls
-  _walls.emplace_back(Wall(grid_width, grid_height));
-  _walls.back().set_direction(Wall::Direction::kUp);
-  _walls.emplace_back(Wall(grid_width, grid_height));
-  _walls.back().set_direction(Wall::Direction::kLeft);
-  _walls.emplace_back(Wall(grid_width, grid_height));
-  _walls.back().set_direction(Wall::Direction::kRight);
+  _upWall.set_direction(Wall::Direction::kUp);
+  _leftWall.set_direction(Wall::Direction::kLeft);
+  _rightWall.set_direction(Wall::Direction::kRight);
 
   // Draw wall points
   // Up wall
@@ -36,11 +33,11 @@ Game::Game(std::size_t grid_width, std::size_t grid_height) : _ball(grid_width, 
   }
 
   // Right wall
-  for(int i=0; i<grid_width; i++)
+  for(int i=0; i<grid_height; i++)
   {
     SDL_Point point;
-    point.x = i;
-    point.y = grid_width - 1;
+    point.x = grid_width - 1;
+    point.y = i;
     _wall_points.push_back(point);
   }
 }
@@ -55,7 +52,9 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   bool running = true;
   _player->play();
   _ball.play();
-  std::for_each(_walls.begin(), _walls.end(), [](Wall &it){it.play();});
+  _upWall.play();
+  _leftWall.play();
+  _rightWall.play();
 
   while (_player->running()) {
     frame_start = SDL_GetTicks();
@@ -63,7 +62,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // Input, Update, Render - the main game loop.
     controller.HandleInput(_player);
     std::vector<SDL_Point> player_points = _player->getBody();
-    renderer.Render(player_points, _wall_points, _ball.get_position());
+    renderer.Render(player_points, _wall_points, _ball.get_point());
 
     frame_end = SDL_GetTicks();
 
@@ -77,6 +76,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
       renderer.UpdateWindowTitle(_score++ , frame_count);
       frame_count = 0;
       title_timestamp = frame_end;
+      _ball.increase_speed();
     }
 
     // If the time for this frame is too small (i.e. frame_duration is

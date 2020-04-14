@@ -15,6 +15,10 @@ class Wall : public GameObject
     // typical behaviour methods
     void play();  
     //void move(Direction dir);
+
+  private:
+    void check_hit();
+    Direction _direction;
 };
 
 #endif
