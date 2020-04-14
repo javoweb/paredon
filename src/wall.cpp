@@ -19,7 +19,6 @@ void Wall::play(std::shared_ptr<Ball> ball)
 
 void Wall::check_hit(std::shared_ptr<Ball> ball)
 {
-    // std::unique_lock<std::mutex> uLock(_mtx, std::defer_lock);
     // Initialize variables
     int cycleDuration = 10;  // Duration between cycles in ms
     std::chrono::time_point<std::chrono::system_clock> lastUpdate;
@@ -36,8 +35,7 @@ void Wall::check_hit(std::shared_ptr<Ball> ball)
                 std::chrono::system_clock::now() - lastUpdate)
                 .count();
         if (timeSinceLastUpdate >= cycleDuration) {
-        // Toggle _currentPhase state
-        //uLock.lock();
+        // Check if ball touched the wall and update ball direction
         float pos_x;
         float pos_y;
         ball->get_position(pos_x, pos_y);

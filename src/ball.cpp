@@ -9,6 +9,7 @@ Ball::Ball(int grid_width, int grid_height) : GameObject(grid_width, grid_height
   _type = ObjectType::objectBall;
   _pos_x = grid_width / 2;
   _pos_y = _grid_height / 2;
+  // Start direction is set to a random value
   std::random_device rd;
   std::mt19937 eng(rd());
   std::uniform_int_distribution<int> distr(-10, 10);
@@ -19,6 +20,7 @@ Ball::Ball(int grid_width, int grid_height) : GameObject(grid_width, grid_height
 
 void Ball::norm_direction()
 {
+  // This function normalize the direction vector in order to always have the same modulo
   float correction_factor = 20.0 / std::sqrt(std::pow(_dir_x, 2) + std::pow(_dir_y, 2));
   _dir_y *= correction_factor;
   _dir_x *= correction_factor;
@@ -62,9 +64,8 @@ void Ball::play(){
 
 void Ball::increase_speed()
 {
-  // launch drive function in a thread
   std::unique_lock<std::mutex> uLock(_mtx);
-  _speed += 0.0001;
+  _speed += 0.0002;
 }
 
 void Ball::update_position()
@@ -86,10 +87,11 @@ void Ball::update_position()
             std::chrono::system_clock::now() - lastUpdate)
             .count();
     if (timeSinceLastUpdate >= cycleDuration) {
-      // Toggle _currentPhase state
+      // Compute new position
       uLock.lock();
       _pos_x += _dir_x * _speed;
       _pos_y += _dir_y * _speed;
+      // Check if ball has left playing zone and end the program
       if (_pos_y >= _grid_height)
       {
         stop();

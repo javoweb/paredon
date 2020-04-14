@@ -51,6 +51,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   Uint32 frame_duration;
   int frame_count = 0;
   bool running = true;
+  // Start the game in every Game Object
   _player->play(_ball);
   _ball->play();
   _upWall.play(_ball);

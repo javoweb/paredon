@@ -4,6 +4,7 @@
 Player::Player(int grid_width, int grid_height) : GameObject(grid_width, grid_height)
 {
   _type = ObjectType::objectPlayer;
+  // Sets Player platform in the middle
   _position = grid_width / 2;
 }
 
@@ -11,6 +12,7 @@ std::vector<SDL_Point> Player::getBody()
 {
     std::vector<SDL_Point> body;
     std::unique_lock<std::mutex> uLock(_mtx);
+    // Generate points for every part of the player platform
     for(int i = -10; i <= 10; i++)
     {
         SDL_Point point;
@@ -30,6 +32,7 @@ void Player::play(std::shared_ptr<Ball> ball)
 void Player::move(Direction dir)
 {
     std::unique_lock<std::mutex> uLock(_mtx, std::defer_lock);
+    // Set new platform position in function of the direction key pressed
     switch (dir)
     {
     case Direction::kLeft:
@@ -69,8 +72,7 @@ void Player::check_hit(std::shared_ptr<Ball> ball)
                 std::chrono::system_clock::now() - lastUpdate)
                 .count();
         if (timeSinceLastUpdate >= cycleDuration) {
-        // Toggle _currentPhase state
-        //uLock.lock();
+        // Check if ball touched platform and update new ball direction
         float pos_x;
         float pos_y;
         ball->get_position(pos_x, pos_y);
