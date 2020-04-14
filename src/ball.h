@@ -19,7 +19,7 @@ class Ball : public GameObject
   void get_position(float &pos_x, float &pos_y);
 
   //typical behaviour methods
-  void play();
+  void play() override;
   void increase_speed();
   
  private:
