@@ -2,8 +2,10 @@
 #define PLAYER_H
 
 #include <vector>
+#include <memory>
 #include "SDL.h"
 #include "gameObject.h"
+#include "ball.h"
 
 class Player : public GameObject
 {
@@ -16,12 +18,12 @@ class Player : public GameObject
     int get_score();
 
     // typical behaviour methods
-    void play();  
+    void play(std::shared_ptr<Ball> ball);  
     void move(Direction dir);
     
 
   private:
-    void check_hit();
+    void check_hit(std::shared_ptr<Ball> ball);
     float _position;      // vector of body points
 
 };

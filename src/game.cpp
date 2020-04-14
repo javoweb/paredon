@@ -4,8 +4,9 @@
 #include <algorithm>
 #include "SDL.h"
 
-Game::Game(std::size_t grid_width, std::size_t grid_height) : _ball(grid_width, grid_height), _upWall(grid_width, grid_height), _leftWall(grid_width, grid_height), _rightWall(grid_width, grid_height)
+Game::Game(std::size_t grid_width, std::size_t grid_height) : _upWall(grid_width, grid_height), _leftWall(grid_width, grid_height), _rightWall(grid_width, grid_height)
 {
+  _ball = std::make_shared<Ball>(grid_width, grid_height);
   _player = std::make_shared<Player>(grid_width, grid_height);
 
   // Initialize Walls
@@ -50,11 +51,11 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   Uint32 frame_duration;
   int frame_count = 0;
   bool running = true;
-  _player->play();
-  _ball.play();
-  _upWall.play();
-  _leftWall.play();
-  _rightWall.play();
+  _player->play(_ball);
+  _ball->play();
+  _upWall.play(_ball);
+  _leftWall.play(_ball);
+  _rightWall.play(_ball);
 
   while (_player->running()) {
     frame_start = SDL_GetTicks();
@@ -62,7 +63,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     // Input, Update, Render - the main game loop.
     controller.HandleInput(_player);
     std::vector<SDL_Point> player_points = _player->getBody();
-    renderer.Render(player_points, _wall_points, _ball.get_point());
+    renderer.Render(player_points, _wall_points, _ball->get_point());
 
     frame_end = SDL_GetTicks();
 
@@ -76,7 +77,7 @@ void Game::Run(Controller const &controller, Renderer &renderer,
       renderer.UpdateWindowTitle(_score++ , frame_count);
       frame_count = 0;
       title_timestamp = frame_end;
-      _ball.increase_speed();
+      _ball->increase_speed();
     }
 
     // If the time for this frame is too small (i.e. frame_duration is

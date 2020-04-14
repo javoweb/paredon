@@ -2,6 +2,7 @@
 #define WALL_H
 
 #include "gameObject.h"
+#include "ball.h"
 
 class Wall : public GameObject
 {
@@ -13,11 +14,11 @@ class Wall : public GameObject
     void set_direction(Direction direction);
 
     // typical behaviour methods
-    void play();  
+    void play(std::shared_ptr<Ball> ball);  
     //void move(Direction dir);
 
   private:
-    void check_hit();
+    void check_hit(std::shared_ptr<Ball> ball);
     Direction _direction;
 };
 

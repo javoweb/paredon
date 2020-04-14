@@ -2,6 +2,7 @@
 #include <iostream>
 #include <random>
 #include <mutex>
+#include <cmath>
 
 Ball::Ball(int grid_width, int grid_height) : GameObject(grid_width, grid_height)
 {
@@ -18,7 +19,7 @@ Ball::Ball(int grid_width, int grid_height) : GameObject(grid_width, grid_height
 
 void Ball::norm_direction()
 {
-  float correction_factor = 200.0 / (_dir_x * _dir_x + _dir_y * _dir_y);
+  float correction_factor = 20.0 / std::sqrt(std::pow(_dir_x, 2) + std::pow(_dir_y, 2));
   _dir_y *= correction_factor;
   _dir_x *= correction_factor;
 }
@@ -63,7 +64,7 @@ void Ball::increase_speed()
 {
   // launch drive function in a thread
   std::unique_lock<std::mutex> uLock(_mtx);
-  _speed += 0.001;
+  _speed += 0.0001;
 }
 
 void Ball::update_position()

@@ -19,7 +19,7 @@ class Game {
   long GetScore() const { return _score; }
 
  private:
-  Ball _ball;
+  std::shared_ptr<Ball> _ball;
   std::shared_ptr<Player> _player;
   Wall _upWall;
   Wall _leftWall;

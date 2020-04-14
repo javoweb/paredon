@@ -31,7 +31,7 @@ class Ball : public GameObject
   float _pos_y;
   float _dir_x;
   float _dir_y;
-  float _speed{0.01f};
+  float _speed{0.008f};
   
 };
 
