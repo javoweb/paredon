@@ -43,6 +43,8 @@ Source code was compiled and tested in a local machine using g++ 7.5.0 in Ubuntu
 ### Loops, Functions, I/O
 
 * A variety of control structures was used in this project (for, while, if, switch).
+* The project reads and writes data to a file as a score logging.
+* The project accepts input from a user as part of the necessary operation of the program. As player name and arrow keys for player platform moving.
 
 ### Object Oriented Programming
 
