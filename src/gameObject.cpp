@@ -30,3 +30,39 @@ void GameObject::stop()
     _game_over = true;
 }
 
+GameObject::GameObject(GameObject &other)
+{
+    _type = ObjectType::noObject;
+    _id = _idCnt++;
+    threads = other.threads;
+    _grid_height = other._grid_height;
+    _grid_width = other._grid_width;
+}
+
+GameObject::GameObject(GameObject &&other){
+    _type = ObjectType::noObject;
+    _id = _idCnt++;
+    threads = std::move(other.threads);
+    _grid_height = other._grid_height;
+    _grid_width = other._grid_width;
+}
+
+GameObject& GameObject::operator=(GameObject &other){
+    if (this == &other){
+        return other;
+    }
+    threads = other.threads;
+    _grid_height = other._grid_height;
+    _grid_width = other._grid_width;
+    return *this;
+}
+
+GameObject& GameObject::operator=(GameObject &&other){
+    if (this == &other){
+        return other;
+    }
+    threads = std::move(other.threads);
+    _grid_height = other._grid_height;
+    _grid_width = other._grid_width;
+    return *this;
+}

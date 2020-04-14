@@ -21,6 +21,10 @@ public:
     // constructor / destructor
     GameObject(int grid_width, int grid_height);
     ~GameObject();
+    GameObject(GameObject &other);
+    GameObject(GameObject &&other);
+    GameObject& operator=(GameObject &other);
+    GameObject& operator=(GameObject &&other);
 
     // getter and setter
     int getID() { return _id; }

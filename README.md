@@ -58,6 +58,7 @@ Source code was compiled and tested in a local machine using g++ 7.5.0 in Ubuntu
 ### Memory Management
 
 * At least two variables are defined as references, or two functions use pass-by-reference in the project code.
+* For all classes, if any one of the copy constructor, copy assignment operator, move constructor, move assignment operator, and destructor are defined, then all of these functions are defined.
 * The project uses at least one smart pointer: unique_ptr, shared_ptr, or weak_ptr. The project does not use raw pointers.
 
 ### Concurrency
